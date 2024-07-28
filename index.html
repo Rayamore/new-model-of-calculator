@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            background: rgb(103, 217, 221);
+        }
+        
+        .calculator {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: -50px -10px 100px rgba(0, 0, 0, 0.2);
+            flex-wrap: wrap;
+            flex-grow: 1;
+            margin: 0 100px;
+        }
+        
+        .display {
+            background: gray;
+            color: #fff;
+            font-size: 2rem;
+            padding: 20px;
+            text-align: right;
+            border-bottom: 1px solid #444;
+        }
+        
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+        }
+        
+        .button {
+            background: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            font-size: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .button:hover {
+            background: #f0f0f0;
+        }
+        
+        .button.operator {
+            background: #f39c12;
+            color: white;
+        }
+        
+        .button.operator:hover {
+            background: #e67e22;
+        }
+        
+        .button.double {
+            grid-column: span;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="calculator">
+        <div class="display" id="display">0</div>
+        <div class="buttons">
+            <div class="button double" onclick="clearDisplay()">C</div>
+            <div class="button operator" onclick="appendOperator('/')">/</div>
+            <div class="button operator" onclick="appendOperator('*')">*</div>
+            <div class="button operator" onclick="appendOperator('-')">-</div>
+
+            <div class="button" onclick="appendNumber('7')">7</div>
+            <div class="button" onclick="appendNumber('8')">8</div>
+            <div class="button" onclick="appendNumber('9')">9</div>
+            <div class="button operator" onclick="appendOperator('+')">+</div>
+
+            <div class="button" onclick="appendNumber('4')">4</div>
+            <div class="button" onclick="appendNumber('5')">5</div>
+            <div class="button" onclick="appendNumber('6')">6</div>
+            <div class="button double operator" onclick="calculateResult()">=</div>
+
+            <div class="button" onclick="appendNumber('1')">1</div>
+            <div class="button" onclick="appendNumber('2')">2</div>
+            <div class="button" onclick="appendNumber('3')">3</div>
+            <div class="button double" onclick="appendNumber('0')">0</div>
+        </div>
+    </div>
+
+    <script>
+        function appendNumber(number) {
+            const display = document.getElementById('display');
+            if (display.innerText === '0') {
+                display.innerText = number;
+            } else {
+                display.innerText += number;
+            }
+        }
+
+        function appendOperator(operator) {
+            const display = document.getElementById('display');
+            const lastChar = display.innerText.slice(-1);
+            if ('+-/*'.includes(lastChar)) {
+                display.innerText = display.innerText.slice(0, -1) + operator;
+            } else {
+                display.innerText += operator;
+            }
+        }
+
+        function clearDisplay() {
+            document.getElementById('display').innerText = '0';
+        }
+
+        function calculateResult() {
+            const display = document.getElementById('display');
+            try {
+                const result = eval(display.innerText);
+                display.innerText = result;
+            } catch (e) {
+                display.innerText = 'Error';
+            }
+        }
+    </script>
+</body>
+
+</html>
